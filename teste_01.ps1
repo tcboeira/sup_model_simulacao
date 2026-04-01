@@ -1,12 +1,8 @@
-########################################################################################
-# Declaração de versão Script
-########################################################################################
 $SCRIPT_VERSION = "0.12.0"
-
 
 function Check-ForUpdate {
 
-    $VERSION_URL = "https://raw.githubusercontent.com/tcboeira/pro_model_sim/main/version.json"
+    $VERSION_URL = "https://raw.githubusercontent.com/tcboeira/sup_model_simulacao/main/version.json"
 
     try {
         $REMOTE = Invoke-RestMethod -Uri $VERSION_URL -TimeoutSec 5
@@ -26,7 +22,7 @@ function Check-ForUpdate {
                 [System.Windows.Forms.MessageBoxIcon]::Information
             )
 
-            if ($RESULT -eq "Yes") {
+            if ($RESULT -eq "Yes" -and $REMOTE.download) {
                 Start-Process $REMOTE.download
             }
 
@@ -34,14 +30,10 @@ function Check-ForUpdate {
         }
     }
     catch {
-        # silencioso
+        Write-Host $_
     }
 
     return $false
 }
 
-
-
 Check-ForUpdate
-
-
